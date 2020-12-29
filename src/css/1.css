@@ -1,0 +1,8 @@
+li{
+    color: red;
+}
+#bg{
+    width: 40px;
+    height: 40px;
+    background: url('../imgs/test.jpg');
+}
