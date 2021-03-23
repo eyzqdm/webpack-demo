@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const parser = require('@babel/parser') // 转AST
 const traverse = require('@babel/traverse').default // 遍历AST
+const babel = require('@babel/core')
 /*
 读取主文件内容
 获取其依赖模块
@@ -20,12 +21,16 @@ const getModuleInfo = (file) => {
     traverse(ast,{
         ImportDeclaration({node}){
             const dirName = path.dirname(file)
-            console.log(path.join(dirName,node.source.value))
-            const absPath = "./" + path.join(dirName,node.source.value)
+            console.log(node.source.value)
+            const absPath = './'+path.join(dirName,node.source.value)
             deps[node.source.value] = absPath
         }
     })
     console.log(deps)
+    const {code} = babel.transformFromAst(ast,null,{
+        presets:["@babel/preset-env"]
+    })
+    console.log(code)
 }
 
 getModuleInfo('./src/index.js')
