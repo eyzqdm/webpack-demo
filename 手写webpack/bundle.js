@@ -5,9 +5,10 @@ const traverse = require("@babel/traverse").default; // 遍历AST
 const babel = require("@babel/core");
 /*
 读取主文件内容
-获取其依赖模块
 转为ast
+获取其依赖模块路径，转为绝对路径。
 语法降级
+递归处理 两个关键字 require export 生成浏览器可执行代码
  */
 const getModuleInfo = (file) => {
   const deps = {};
@@ -32,8 +33,9 @@ const getModuleInfo = (file) => {
   const moduleMsg = {
     file,
     deps,
-    code,
+    code:code,
   };
+  console.log(moduleMsg)
   return moduleMsg;
 };
 const parseModules = (file) => {
@@ -87,8 +89,8 @@ const parseModule = (file) => {
       }
     }
   }
-  console.log(depsGraph);
+  //console.log(depsGraph);
   return depsGraph;
 };
 
-parseModules("./src/index.js");
+parseModule("./src/index.js");
